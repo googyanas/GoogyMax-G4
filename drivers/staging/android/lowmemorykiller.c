@@ -107,16 +107,16 @@ static int test_task_flag(struct task_struct *p, int flag)
 #ifdef CONFIG_PROCESS_RECLAIM
 static int test_task_exit_state(struct task_struct *p, long flag)
 {
-	struct task_struct *t = p;
+	struct task_struct *t;
 
-	do {
+	for_each_thread(p, t) {
 		task_lock(t);
 		if (t->exit_state == flag) {
 			task_unlock(t);
 			return 1;
 		}
 		task_unlock(t);
-	} while_each_thread(p, t);
+	}
 
 	return 0;
 }
