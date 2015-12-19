@@ -3,7 +3,8 @@ export KERNELDIR=`readlink -f .`
 export PARENT_DIR=`readlink -f ..`
 # export CROSS_COMPILE=/home/googy/Kernel/Googy-Max-G4/toolchain/bin/aarch64-linux-android-
 # export CROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
-export CROSS_COMPILE=/home/googy/Downloads/linaro49/bin/aarch64-linux-gnu-
+export CROSS_COMPILE=/home/googy/Téléchargements/linaro49/bin/aarch64-linux-gnu-
+# export CROSS_COMPILE=/home/googy/Downloads/arm-cortex-linux-gnueabi-linaro_4.9.4-2015.06/bin/arm-cortex-linux-gnueabi-
 export KCONFIG_NOTIMESTAMP=true
 
 VER="\"-Googy-Max-G4-v$1\""
@@ -18,12 +19,12 @@ make googymax-g4_defconfig || exit 1
 
 make -j4 || exit 1
 
-mkdir -p /home/googy/Kernel/Googy-Max-G4/Out/ramdisk/system/lib/modules
-rm -rf /home/googy/Kernel/Googy-Max-G4/Out/ramdisk/system/lib/modules/*
-find -name '*.ko' -exec cp -av {} /home/googy/Kernel/Googy-Max-G4/Out/ramdisk/system/lib/modules/ \;
-${CROSS_COMPILE}strip --strip-unneeded /home/googy/Kernel/Googy-Max-G4/Out/ramdisk/system/lib/modules/*
+mkdir -p /home/googy/Kernel/Googy-Max-G4/Release/system/lib/modules
+rm -rf /home/googy/Kernel/Googy-Max-G4/Release/system/lib/modules/*
+find -name '*.ko' -exec cp -av {} /home/googy/Kernel/Googy-Max-G4/Release/system/lib/modules/ \;
+${CROSS_COMPILE}strip --strip-unneeded /home/googy/Kernel/Googy-Max-G4/Release/system/lib/modules/*
 
-# ./tools/dtbToolCM -o /home/googy/Kernel/Googy-Max-G4/Out/dt.img -s 4096 -p ./scripts/dtc/ arch/arm64/boot/dts/
+./tools/dtbToolCM -2 -o /home/googy/Kernel/Googy-Max-G4/Out/dt.img -s 4096 -p ./scripts/dtc/ arch/arm64/boot/dts/
 
 cd /home/googy/Kernel/Googy-Max-G4/Out
 ./packimg.sh
