@@ -497,10 +497,6 @@ void check_gpu(int cpu,u64 now)
 	}
 }
 
-#ifdef CONFIG_MACH_MSM8992_P1
-extern void _update_cpu_load(int cpu, int freq, int load);
-#endif
-
 #define MAX_LOCAL_LOAD 100
 static void cpufreq_interactive_timer(unsigned long data)
 {
@@ -666,9 +662,6 @@ static void cpufreq_interactive_timer(unsigned long data)
 	spin_lock_irqsave(&speedchange_cpumask_lock, flags);
 	cpumask_set_cpu(data, &speedchange_cpumask);
 	spin_unlock_irqrestore(&speedchange_cpumask_lock, flags);
-#ifdef CONFIG_MACH_MSM8992_P1
-	_update_cpu_load(data, new_freq, cpu_load);
-#endif
 	wake_up_process(speedchange_task);
 
 rearm:
@@ -1809,9 +1802,6 @@ static struct cpufreq_interactive_tunables *restore_tunables(
 
 	return per_cpu(cpuinfo, cpu).cached_tunables;
 }
-#ifdef CONFIG_MACH_MSM8992_P1
-extern void _update_online_state(int online, struct cpufreq_policy *policy);
-#endif
 
 static int cpufreq_governor_interactive(struct cpufreq_policy *policy,
 		unsigned int event)
@@ -1937,9 +1927,6 @@ static int cpufreq_governor_interactive(struct cpufreq_policy *policy,
 		}
 
 		mutex_unlock(&gov_lock);
-#ifdef CONFIG_MACH_MSM8992_P1
-		_update_online_state(true, policy);
-#endif
 		break;
 
 	case CPUFREQ_GOV_STOP:
@@ -1957,9 +1944,6 @@ static int cpufreq_governor_interactive(struct cpufreq_policy *policy,
 		}
 
 		mutex_unlock(&gov_lock);
-#ifdef CONFIG_MACH_MSM8992_P1
-		_update_online_state(false, policy);
-#endif
 		break;
 
 	case CPUFREQ_GOV_LIMITS:
