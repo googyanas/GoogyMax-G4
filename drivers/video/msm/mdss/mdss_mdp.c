@@ -1699,7 +1699,7 @@ static ssize_t fps_ratio_show(struct device *dev,
 	return r;
 }
 
-static int fps_cnt_before = 0;
+int fps_cnt_before = 0;
 extern struct fb_info *msm_fb_get_cmd_pan_fb(void);
 
 static ssize_t fps_fcnt_show(struct device *dev,
