@@ -380,8 +380,7 @@ KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
 		   -Werror-implicit-function-declaration \
 		   -Wno-format-security \
 		   -fno-delete-null-pointer-checks \
-		   -std=gnu89 -Wno-discarded-array-qualifiers -Wno-logical-not-parentheses -Wno-array-bounds -Wno-switch -Wno-unused-variable \
-		   -mtune=cortex-a57.cortex-a53 -Wno-memset-transposed-args
+		   -std=gnu89 -Wno-array-bounds 
 
 KBUILD_AFLAGS_KERNEL :=
 KBUILD_CFLAGS_KERNEL :=
