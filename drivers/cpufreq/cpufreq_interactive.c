@@ -81,7 +81,7 @@ static int migration_register_count;
 static struct mutex sched_lock;
 
 /* Target load.  Lower values result in higher CPU speeds. */
-#define DEFAULT_TARGET_LOAD 90
+#define DEFAULT_TARGET_LOAD 85
 static unsigned int default_target_loads[] = {DEFAULT_TARGET_LOAD};
 
 #define DEFAULT_TIMER_RATE (20 * USEC_PER_MSEC)
@@ -90,9 +90,9 @@ static unsigned int default_above_hispeed_delay[] = {
 	DEFAULT_ABOVE_HISPEED_DELAY };
 
 #define DEFAULT_IS_CANCUN				1
-#define DEFAULT_GPU_TARGET_LOAD			95
-#define DEFAULT_GPU_RANGE_START_FREQ	300000000
-#define DEFAULT_GPU_RANGE_END_FREQ		490000000
+#define DEFAULT_GPU_TARGET_LOAD			90
+#define DEFAULT_GPU_RANGE_START_FREQ	180000000
+#define DEFAULT_GPU_RANGE_END_FREQ		600000000
 #define DEFAULT_GPU_RANGE_ENTER_TIME	1000000
 #define DEFAULT_GPU_RANGE_OUT_TIME		500000
 #define DEFAULT_GPU_MAX_FREQ			0
@@ -498,7 +498,7 @@ void check_gpu(int cpu,u64 now)
 }
 
 #ifdef CONFIG_MACH_MSM8992_P1
-extern void _update_cpu_load(int cpu, int freq, int load);
+// ggy extern void _update_cpu_load(int cpu, int freq, int load);
 #endif
 
 #define MAX_LOCAL_LOAD 100
@@ -667,7 +667,7 @@ static void cpufreq_interactive_timer(unsigned long data)
 	cpumask_set_cpu(data, &speedchange_cpumask);
 	spin_unlock_irqrestore(&speedchange_cpumask_lock, flags);
 #ifdef CONFIG_MACH_MSM8992_P1
-	_update_cpu_load(data, new_freq, cpu_load);
+// ggy	_update_cpu_load(data, new_freq, cpu_load);
 #endif
 	wake_up_process(speedchange_task);
 
@@ -1810,7 +1810,7 @@ static struct cpufreq_interactive_tunables *restore_tunables(
 	return per_cpu(cpuinfo, cpu).cached_tunables;
 }
 #ifdef CONFIG_MACH_MSM8992_P1
-extern void _update_online_state(int online, struct cpufreq_policy *policy);
+// ggy extern void _update_online_state(int online, struct cpufreq_policy *policy);
 #endif
 
 static int cpufreq_governor_interactive(struct cpufreq_policy *policy,
@@ -1938,7 +1938,7 @@ static int cpufreq_governor_interactive(struct cpufreq_policy *policy,
 
 		mutex_unlock(&gov_lock);
 #ifdef CONFIG_MACH_MSM8992_P1
-		_update_online_state(true, policy);
+// ggy		_update_online_state(true, policy);
 #endif
 		break;
 
@@ -1958,13 +1958,17 @@ static int cpufreq_governor_interactive(struct cpufreq_policy *policy,
 
 		mutex_unlock(&gov_lock);
 #ifdef CONFIG_MACH_MSM8992_P1
-		_update_online_state(false, policy);
+// ggy		_update_online_state(false, policy);
 #endif
 		break;
 
 	case CPUFREQ_GOV_LIMITS:
-		__cpufreq_driver_target(policy,
-				policy->cur, CPUFREQ_RELATION_L);
+		if (policy->max < policy->cur)
+			__cpufreq_driver_target(policy,
+					policy->max, CPUFREQ_RELATION_H);
+		else if (policy->min > policy->cur)
+			__cpufreq_driver_target(policy,
+					policy->min, CPUFREQ_RELATION_L);
 		for_each_cpu(j, policy->cpus) {
 			pcpu = &per_cpu(cpuinfo, j);
 
