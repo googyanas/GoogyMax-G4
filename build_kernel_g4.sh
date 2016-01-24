@@ -3,6 +3,7 @@ export KERNELDIR=`readlink -f .`
 export PARENT_DIR=`readlink -f ..`
 # export CROSS_COMPILE=/home/googy/Kernel/Googy-Max-G4/toolchain/bin/aarch64-linux-android-
 # export CROSS_COMPILE=/usr/bin/aarch64-linux-gnu-
+export PATH=/home/googy/Téléchargements/linaro49/bin:$PATH
 export CROSS_COMPILE=/home/googy/Téléchargements/linaro49/bin/aarch64-linux-gnu-
 # export CROSS_COMPILE=/home/googy/Downloads/arm-cortex-linux-gnueabi-linaro_4.9.4-2015.06/bin/arm-cortex-linux-gnueabi-
 export KCONFIG_NOTIMESTAMP=true
@@ -12,6 +13,7 @@ cp -f /home/googy/Kernel/Googy-Max-G4/Kernel/arch/arm64/configs/googymax-g4_defc
 sed "s#^CONFIG_LOCALVERSION=.*#CONFIG_LOCALVERSION=$VER#" /home/googy/Kernel/Googy-Max-G4/googymax-g4_defconfig > /home/googy/Kernel/Googy-Max-G4/Kernel/arch/arm64/configs/googymax-g4_defconfig
 
 export ARCH=arm64
+export SUBARCH=arm64
 
 rm -f /home/googy/Kernel/Googy-Max-G4/Kernel/arch/arm64/boot/Image*.*
 rm -f /home/googy/Kernel/Googy-Max-G4/Kernel/arch/arm64/boot/.Image*.*
