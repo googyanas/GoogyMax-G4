@@ -15,6 +15,8 @@ sed "s#^CONFIG_LOCALVERSION=.*#CONFIG_LOCALVERSION=$VER#" /home/googy/Kernel/Goo
 export ARCH=arm64
 export SUBARCH=arm64
 
+find -name '*.ko' -exec rm -rf {} \;
+
 rm -f /home/googy/Kernel/Googy-Max-G4/Kernel/arch/arm64/boot/Image*.*
 rm -f /home/googy/Kernel/Googy-Max-G4/Kernel/arch/arm64/boot/.Image*.*
 make googymax-g4_defconfig || exit 1
