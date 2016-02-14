@@ -1,12 +1,10 @@
-#
-# Automatically generated file; DO NOT EDIT.
-# Linux/arm64 3.10.94 Kernel Configuration
-#
+###################
+#                 #
 ### GoogyMax-G4 ###
-#
-#
+#                 #
 ###################
 #
+# CONFIG_ASYNC_FSYNC is not set
 CONFIG_DYNAMIC_FSYNC=y
 CONFIG_ARM64=y
 CONFIG_64BIT=y
